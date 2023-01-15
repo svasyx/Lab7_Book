@@ -36,6 +36,7 @@ int main(int argc, char* argv[])
 
     int newsize = 0;
     int count = 0;//к-сть строк у файлі
+    int searchYear;
 
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
@@ -109,9 +110,19 @@ int main(int argc, char* argv[])
     //Книги після зчитування
     printf("Книги після зчитування:\n");
     print(book, count);
+    puts("Введіть рік пошуку:");
+    scanf("%d", &searchYear);
 
+    if (searchYear < 0)
+    {
+        puts("Рік має бути додатнім");
+        return 1;
+    }
 
-    tempbook = SearchByYear(book, count, 2002, newsize);
+    if (!(tempbook = SearchByYear(book, count, searchYear, newsize)))
+    {
+        puts("Помилка!");
+    }
 
     //Книги після пошуку
     printf("Книги після пошуку:\n");
@@ -210,6 +221,11 @@ Book* SearchByYear(Book* arr, int size, int serchYear, int& newsize)
             newsize++;
 
         }
+    }
+
+    if (newsize == 0)
+    {
+        return 0;
     }
     //повертаємо структуру
     return tempbook;
